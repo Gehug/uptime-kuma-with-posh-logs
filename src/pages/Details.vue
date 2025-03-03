@@ -3,7 +3,7 @@
         <div v-if="monitor">
             <router-link v-if="group !== ''" :to="monitorURL(monitor.parent)"> {{ group }}</router-link>
             <h1>
-                {{ monitor.name }}
+                {{ monitor.name }} 
                 <div class="monitor-id">
                     <div class="hash">#</div>
                     <div>{{ monitor.id }}</div>
@@ -159,6 +159,15 @@
                         </span>
                     </div>
 
+                    <!-- Uptime (Errors) -->
+                    <div class="col-12 col-sm col row d-flex align-items-center d-sm-block">
+                        <h4 class="col-4 col-sm-12">{{ $t("Errors") }}</h4>
+                        <p class="col-4 col-sm-12 mb-0 mb-sm-2">(1{{ $t("errors") }})</p>
+                        <span class="col-4 col-sm-12 num">
+                            <Errors />
+                        </span>
+                    </div>
+
                     <div v-if="tlsInfo" class="col-12 col-sm col row d-flex align-items-center d-sm-block">
                         <h4 class="col-4 col-sm-12">{{ $t("Cert Exp.") }}</h4>
                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">(<Datetime :value="tlsInfo.certInfo.validTo" date-only />)</p>
@@ -250,6 +259,8 @@
                 </div>
             </div>
 
+            <ErrorList />
+
             <Confirm ref="confirmPause" :yes-text="$t('Yes')" :no-text="$t('No')" @yes="pauseMonitor">
                 {{ $t("pauseMonitorMsg") }}
             </Confirm>
@@ -279,6 +290,8 @@ import Status from "../components/Status.vue";
 import Datetime from "../components/Datetime.vue";
 import CountUp from "../components/CountUp.vue";
 import Uptime from "../components/Uptime.vue";
+import Errors from "../components/Errors.vue";
+import ErrorList from "../components/ErrorList.vue";
 import Pagination from "v-pagination-3";
 const PingChart = defineAsyncComponent(() => import("../components/PingChart.vue"));
 import Tag from "../components/Tag.vue";
@@ -297,6 +310,8 @@ import ScreenshotDialog from "../components/ScreenshotDialog.vue";
 export default {
     components: {
         Uptime,
+        Errors,
+        ErrorList,
         CountUp,
         Datetime,
         HeartbeatBar,
@@ -307,7 +322,7 @@ export default {
         Tag,
         CertificateInfo,
         PrismEditor,
-        ScreenshotDialog
+        ScreenshotDialog,
     },
     data() {
         return {
